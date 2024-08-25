@@ -11,6 +11,12 @@ type Service struct {
 	HotelRepo repository.HotelRepo
 }
 
+func NewService(hotelRepo repository.HotelRepo) *Service {
+	return &Service{
+		HotelRepo: hotelRepo,
+	}
+}
+
 func (h *Service) CreateHotel(ctx context.Context, req *hotel.CreateHotelReq) (*hotel.CreateHotelResp, error) {
 	return h.HotelRepo.CreateHotel(ctx, req)
 }
