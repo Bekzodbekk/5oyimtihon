@@ -6,7 +6,7 @@ service HotelService{
     rpc CreateHotel(CreateHotelReq) returns (CreateHotelResp) {}
     rpc UpdateHotel(UpdateHotelReq) returns (UpdateHotelResp) {}
     rpc DeleteHotel(DeleteHotelReq) returns (DeleteHotelResp) {}
-    rpc GetAllHotels(Void) returns (GetAllHotels) {}
+    rpc GetAllHotels(Void) returns (GetAllHotelsST) {}
     rpc GetHotelById(GetHotelByIdReq) returns (GetHotelByIdResp) {}
     rpc GetHotelRoomAvailability(HotelRoomsAvailabilityReq) returns (HotelRoomsAvailabilityResp){}
 }
@@ -80,7 +80,7 @@ message DeleteHotelResp{
 
 message Void{}
 
-message GetAllHotels{
+message GetAllHotelsST{
     bool status = 1;
     string message = 2;
     int64 hotels_count = 3;
