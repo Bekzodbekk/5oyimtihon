@@ -47,5 +47,25 @@ message CreateHotelResp{
 // ========================================================================
 
 message UpdateHotelReq{
-    
+    string name = 1;
+    string location = 2;
+    int64 rating = 3;
+    string address = 4;
 }
+
+message UpdateHotelResp{
+    bool status = 1;
+    string message = 2;
+    Hotel hotel = 3;
+}
+
+// ============================================================================
+message DeleteHotelReq{
+    string id = 1;
+}
+message DeleteHotelResp{
+    bool status = 1;
+    string message = 2;
+}
+
+// ==========================================================================
