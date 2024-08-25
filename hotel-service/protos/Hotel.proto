@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "genproto/hotel"
+option go_package = "genproto/hotel";
 
 message Hotel{
     string hotel_id = 1;
