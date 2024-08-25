@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "genproto/hotel"
+
+message Hotel{
+    string hotel_id = 1;
+    string name = 2;
+    string location = 3;
+    int64 rating = 4;
+    string address = 5;
+    int64 rooms_count = 6;
+    Room room = 7;
+    CUD cud = 8;
+}
+
+message Room{
+    string hotel_id = 1;
+    string room_id = 2;
+    string room_type = 3;
+    float price_per_night = 4;
+    bool availability = 5;
+    
+}
+
+message CUD{
+    string created_at = 1;
+    string updated_at = 2;
+    int64 deleted_at = 3;
+}
+
+
+// ========================================================================
+
+message CreateHotelReq{
+    string name = 1;
+    string location = 2;
+    int64 rating = 3;
+    string address = 4;
+}
+
+message CreateHotelResp{
+    bool status = 1;
+    string message = 2;
+    Hotel hotel = 3;
+}
+
+// ========================================================================
+
+message UpdateHotelReq{
+    
+}
