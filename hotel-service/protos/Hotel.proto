@@ -2,6 +2,15 @@ syntax = "proto3";
 
 option go_package = "genproto/hotel";
 
+service HotelService{
+    rpc CreateHotel(CreateHotelReq) returns (CreateHotelResp) {}
+    rpc UpdateHotel(UpdateHotelReq) returns (UpdateHotelResp) {}
+    rpc DeleteHotel(DeleteHotelReq) returns (DeleteHotelResp) {}
+    rpc GetAllHotels(Void) returns (GetAllHotels) {}
+    rpc GetHotelById(GetHotelByIdReq) returns (GetHotelByIdResp) {}
+    rpc GetHotelRoomAvailability(HotelRoomsAvailabilityReq) returns (HotelRoomsAvailabilityResp){}
+}
+
 message Hotel{
     string hotel_id = 1;
     string name = 2;
@@ -19,7 +28,6 @@ message Room{
     string room_type = 3;
     float price_per_night = 4;
     bool availability = 5;
-    
 }
 
 message CUD{
@@ -69,3 +77,37 @@ message DeleteHotelResp{
 }
 
 // ==========================================================================
+
+message Void{}
+
+message GetAllHotels{
+    bool status = 1;
+    string message = 2;
+    int64 hotels_count = 3;
+    repeated Hotel Hotels = 4;
+}
+
+// =========================================================================
+
+
+message GetHotelByIdReq{
+    string id = 1;
+}
+
+message GetHotelByIdResp{
+    bool status = 1;
+    string message = 2;
+    Hotel hotel = 3;
+}
+
+// ==========================================================================
+
+message HotelRoomsAvailabilityReq{
+    string id = 1;
+}
+
+message HotelRoomsAvailabilityResp{
+    bool status = 1;
+    string message = 2;
+    repeated Room rooms = 3;
+}
