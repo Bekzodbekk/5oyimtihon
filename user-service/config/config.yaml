@@ -1,0 +1,17 @@
+service:
+  host: localhost
+  port: 8002
+
+mongosh:
+  host: localhost
+  port: 27017
+  database: userDB
+  collection: users
+
+redis:
+  host: localhost
+  port: 6379
+
+secretKey: bekzodbekk_mongosh
+email: bekzodnematov709@gmail.com
+passKey: funt snwb bqdo kqfk

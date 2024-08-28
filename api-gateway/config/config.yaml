@@ -1,0 +1,22 @@
+server:
+  host: localhost
+  port: 9000
+
+hotel_service:
+  host: localhost
+  port: 8001
+
+user_service:
+  host: localhost
+  port: 8002
+
+booking_service:
+  host: localhost
+  port: 8003
+
+notification_service:
+  host: localhost
+  port: 8004
+
+
+secretKey: bekzodbekk_mongosh

@@ -2,9 +2,11 @@ package repository
 
 import (
 	"context"
-	pb "hotel-service/genproto/hotel"
+	"errors"
 	"time"
 
+	"github.com/Bekzodbekk/5oyimtihonProto/genproto/hotel"
+	pb "github.com/Bekzodbekk/5oyimtihonProto/genproto/hotel"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,7 +19,7 @@ type Hotel struct {
 	Rating     int64              `bson:"rating"`
 	Address    string             `bson:"address"`
 	RoomsCount int64              `bson:"rooms_count"`
-	Rooms      []Room             `bson:"rooms"`
+	Rooms      bson.A             `bson:"rooms"`
 	CreatedAt  string             `bson:"created_at"`
 	UpdatedAt  string             `bson:"updated_at"`
 	DeletedAt  int64              `bson:"deleted_at"`
@@ -48,7 +50,7 @@ func (h *HotelRepo) CreateHotel(ctx context.Context, req *pb.CreateHotelReq) (*p
 		Rating:     req.Rating,
 		Address:    req.Address,
 		RoomsCount: 0,
-		Rooms:      []Room{},
+		Rooms:      bson.A{},
 		CreatedAt:  now,
 		UpdatedAt:  now,
 		DeletedAt:  0,
@@ -79,6 +81,7 @@ func (h *HotelRepo) CreateHotel(ctx context.Context, req *pb.CreateHotelReq) (*p
 			},
 		},
 	}, nil
+
 }
 
 func (h *HotelRepo) UpdateHotel(ctx context.Context, req *pb.UpdateHotelReq) (*pb.UpdateHotelResp, error) {
@@ -87,7 +90,7 @@ func (h *HotelRepo) UpdateHotel(ctx context.Context, req *pb.UpdateHotelReq) (*p
 		return nil, err
 	}
 
-	now := time.Now()
+	now := time.Now().String()
 	update := bson.M{
 		"$set": bson.M{
 			"name":       req.Name,
@@ -120,7 +123,7 @@ func (h *HotelRepo) UpdateHotel(ctx context.Context, req *pb.UpdateHotelReq) (*p
 			Rating:   req.Rating,
 			Address:  req.Address,
 			Cud: &pb.CUD{
-				UpdatedAt: now.String(),
+				UpdatedAt: now,
 			},
 		},
 	}, nil
@@ -135,6 +138,7 @@ func (h *HotelRepo) DeleteHotel(ctx context.Context, req *pb.DeleteHotelReq) (*p
 	filter := bson.M{"_id": hotelId, "deleted_at": 0}
 	update := bson.M{
 		"$set": bson.M{
+			"updated_at": time.Now().String(),
 			"deleted_at": time.Now().Unix(),
 		},
 	}
@@ -156,7 +160,7 @@ func (h *HotelRepo) DeleteHotel(ctx context.Context, req *pb.DeleteHotelReq) (*p
 	}, nil
 }
 
-func (h *HotelRepo) GetHotels(ctx context.Context, req *pb.Void) (*pb.GetAllHotelsST, error) {
+func (h *HotelRepo) GetAllHotels(ctx context.Context, req *pb.Void) (*pb.GetAllHotelsST, error) {
 	filter := bson.M{"deleted_at": 0}
 	cursor, err := h.coll.Find(ctx, filter)
 	if err != nil {
@@ -170,7 +174,21 @@ func (h *HotelRepo) GetHotels(ctx context.Context, req *pb.Void) (*pb.GetAllHote
 		if err := cursor.Decode(&hotel); err != nil {
 			return nil, err
 		}
-		hotels = append(hotels, convertHotelToPb(&hotel))
+		pbHotel := &pb.Hotel{
+			HotelId:    hotel.HotelId.Hex(),
+			Name:       hotel.Name,
+			Location:   hotel.Location,
+			Rating:     hotel.Rating,
+			Address:    hotel.Address,
+			RoomsCount: hotel.RoomsCount,
+			Room:       &pb.Room{},
+			Cud: &pb.CUD{
+				CreatedAt: hotel.CreatedAt,
+				UpdatedAt: hotel.UpdatedAt,
+				DeletedAt: hotel.DeletedAt,
+			},
+		}
+		hotels = append(hotels, pbHotel)
 	}
 
 	return &pb.GetAllHotelsST{
@@ -186,7 +204,6 @@ func (h *HotelRepo) GetHotelById(ctx context.Context, req *pb.GetHotelByIdReq) (
 	if err != nil {
 		return nil, err
 	}
-
 	filter := bson.M{"_id": hotelId, "deleted_at": 0}
 	var hotel Hotel
 	err = h.coll.FindOne(ctx, filter).Decode(&hotel)
@@ -203,7 +220,20 @@ func (h *HotelRepo) GetHotelById(ctx context.Context, req *pb.GetHotelByIdReq) (
 	return &pb.GetHotelByIdResp{
 		Status:  true,
 		Message: "Hotel retrieved successfully",
-		Hotel:   convertHotelToPb(&hotel),
+		Hotel: &pb.Hotel{
+			HotelId:    req.Id,
+			Name:       hotel.Name,
+			Location:   hotel.Location,
+			Rating:     hotel.Rating,
+			Address:    hotel.Address,
+			RoomsCount: hotel.RoomsCount,
+			Room:       &pb.Room{},
+			Cud: &pb.CUD{
+				CreatedAt: hotel.CreatedAt,
+				UpdatedAt: hotel.UpdatedAt,
+				DeletedAt: hotel.DeletedAt,
+			},
+		},
 	}, nil
 }
 
@@ -228,9 +258,23 @@ func (h *HotelRepo) GetHotelRoomsAvailability(ctx context.Context, req *pb.Hotel
 
 	var availableRooms []*pb.Room
 	for _, room := range hotel.Rooms {
-		if room.Availability {
-			availableRooms = append(availableRooms, convertRoomToPb(&room))
+		roomMap, ok := room.(bson.M)
+		if !ok {
+			continue
 		}
+
+		availability, ok := roomMap["availability"].(bool)
+		if !ok || !availability {
+			continue
+		}
+
+		pbRoom := &pb.Room{
+			RoomId:        roomMap["_id"].(primitive.ObjectID).Hex(),
+			RoomType:      roomMap["room_type"].(string),
+			PricePerNight: float32(roomMap["price_per_night"].(float64)),
+			Availability:  availability,
+		}
+		availableRooms = append(availableRooms, pbRoom)
 	}
 
 	return &pb.HotelRoomsAvailabilityResp{
@@ -240,28 +284,120 @@ func (h *HotelRepo) GetHotelRoomsAvailability(ctx context.Context, req *pb.Hotel
 	}, nil
 }
 
-func convertHotelToPb(hotel *Hotel) *pb.Hotel {
-	return &pb.Hotel{
-		HotelId:    hotel.HotelId.Hex(),
-		Name:       hotel.Name,
-		Location:   hotel.Location,
-		Rating:     hotel.Rating,
-		Address:    hotel.Address,
-		RoomsCount: hotel.RoomsCount,
-		Room:       convertRoomToPb(&hotel.Rooms[0]),
-		Cud: &pb.CUD{
-			CreatedAt: hotel.CreatedAt,
-			UpdatedAt: hotel.UpdatedAt,
-			DeletedAt: hotel.DeletedAt,
-		},
+func (h *HotelRepo) CreateRoom(ctx context.Context, req *hotel.CreateRoomReq) (*hotel.CreateRoomResp, error) {
+	hotelId, err := primitive.ObjectIDFromHex(req.HotelId)
+	if err != nil {
+		return nil, err
 	}
+
+	newRoom := Room{
+		RoomId:        primitive.NewObjectID(),
+		RoomType:      req.RoomType,
+		PricePerNight: float64(req.PricePerNight),
+		Availability:  true,
+	}
+
+	filter := bson.M{"_id": hotelId, "deleted_at": 0}
+	update := bson.M{
+		"$push": bson.M{"rooms": newRoom},
+		"$inc":  bson.M{"rooms_count": 1},
+		"$set":  bson.M{"updated_at": time.Now().String()},
+	}
+
+	result, err := h.coll.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount == 0 {
+		return nil, errors.New("hotel not found")
+	}
+
+	return &hotel.CreateRoomResp{
+		Status:  true,
+		Message: "Room created successfully",
+		Room: &pb.Room{
+			RoomId:        newRoom.RoomId.Hex(),
+			RoomType:      newRoom.RoomType,
+			PricePerNight: float32(newRoom.PricePerNight),
+			Availability:  newRoom.Availability,
+		},
+	}, nil
 }
 
-func convertRoomToPb(room *Room) *pb.Room {
-	return &pb.Room{
-		RoomId:        room.RoomId.Hex(),
-		RoomType:      room.RoomType,
-		PricePerNight: float32(room.PricePerNight),
-		Availability:  room.Availability,
+func (h *HotelRepo) UpdateRoom(ctx context.Context, req *hotel.UpdateRoomReq) (*hotel.UpdateRoomResp, error) {
+	hotelId, err := primitive.ObjectIDFromHex(req.HotelId)
+	if err != nil {
+		return nil, err
 	}
+
+	roomId, err := primitive.ObjectIDFromHex(req.RoomId)
+	if err != nil {
+		return nil, err
+	}
+
+	filter := bson.M{
+		"_id":        hotelId,
+		"deleted_at": 0,
+		"rooms._id":  roomId,
+	}
+
+	update := bson.M{
+		"$set": bson.M{
+			"rooms.$.room_type":       req.RoomType,
+			"rooms.$.price_per_night": req.PricePerNight,
+			"updated_at":              time.Now().String(),
+		},
+	}
+
+	result, err := h.coll.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount == 0 {
+		return nil, errors.New("hotel or room not found")
+	}
+
+	return &hotel.UpdateRoomResp{
+		Status:  true,
+		Message: "Room updated successfully",
+	}, nil
+}
+
+func (h *HotelRepo) DeleteRoom(ctx context.Context, req *hotel.DeleteRoomReq) (*hotel.DeleteRoomResp, error) {
+	hotelId, err := primitive.ObjectIDFromHex(req.HotelId)
+	if err != nil {
+		return nil, err
+	}
+
+	roomId, err := primitive.ObjectIDFromHex(req.RoomId)
+	if err != nil {
+		return nil, err
+	}
+
+	filter := bson.M{"_id": hotelId, "deleted_at": 0}
+	update := bson.M{
+		"$pull": bson.M{"rooms": bson.M{"_id": roomId}},
+		"$inc":  bson.M{"rooms_count": -1},
+		"$set":  bson.M{"updated_at": time.Now().String()},
+	}
+
+	result, err := h.coll.UpdateOne(ctx, filter, update)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.MatchedCount == 0 {
+		return nil, errors.New("hotel not found")
+	}
+
+	if result.ModifiedCount == 0 {
+		return nil, errors.New("room not found")
+	}
+
+	return &hotel.DeleteRoomResp{
+		Status:  true,
+		Message: "Room deleted successfully",
+	}, nil
 }

@@ -2,7 +2,8 @@ package repository
 
 import (
 	"context"
-	"hotel-service/genproto/hotel"
+
+	"github.com/Bekzodbekk/5oyimtihonProto/genproto/hotel"
 )
 
 type HotelRepository interface {
@@ -12,4 +13,8 @@ type HotelRepository interface {
 	GetHotels(ctx context.Context, req *hotel.Void) (*hotel.GetAllHotelsST, error)
 	GetHotelById(ctx context.Context, req *hotel.GetHotelByIdReq) (*hotel.GetHotelByIdResp, error)
 	GetHotelRoomsAvailability(ctx context.Context, req *hotel.HotelRoomsAvailabilityReq) (*hotel.HotelRoomsAvailabilityResp, error)
+
+	CreateRoom(ctx context.Context, req *hotel.CreateRoomReq) (*hotel.CreateRoomResp, error)
+	UpdateRoom(ctx context.Context, req *hotel.UpdateRoomReq) (*hotel.UpdateRoomResp, error)
+	DeleteRoom(ctx context.Context, req *hotel.DeleteRoomReq) (*hotel.DeleteRoomResp, error)
 }
