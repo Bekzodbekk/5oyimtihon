@@ -33,6 +33,7 @@ func NewGin(cli service.ServiceRepository, rdb *redis.Client) *http.Server {
 	r.POST("/api/users/register", hnd.Register)
 	r.POST("/api/users/verify", hnd.Verify)
 	r.POST("/api/users/login", hnd.Login)
+
 	protected := r.Group("/api")
 	protected.Use(middleware.AuthMiddleware())
 	{

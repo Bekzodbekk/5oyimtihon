@@ -14,23 +14,22 @@ type Mongo struct {
 	Collection *mongo.Collection
 }
 
-func InitDB(conf load.Config)(*Mongo, error){
+func InitDB(conf load.Config) (*Mongo, error) {
 	ctx := context.Background()
-	
+
 	uri := fmt.Sprintf("mongodb://%s:%d", conf.Mongo.MongoHost, conf.Mongo.MongoPort)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	if err != nil {
 		return nil, err
 	}
 
-	if err := client.Ping(ctx, nil); err != nil{
+	if err := client.Ping(ctx, nil); err != nil {
 		return nil, err
 	}
 
 	coll := client.Database(conf.Mongo.MongoDatabase).Collection(conf.Mongo.MongoCollection)
-
 	return &Mongo{
-		Client: client,
+		Client:     client,
 		Collection: coll,
 	}, nil
 }

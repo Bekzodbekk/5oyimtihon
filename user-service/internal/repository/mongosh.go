@@ -199,6 +199,7 @@ func (u *UserRepo) Verify(ctx context.Context, req *user.VerifyReq) (*user.Verif
 	if err != nil {
 		return nil, err
 	}
+
 	if expPass != req.Password {
 		return &user.VerifyResp{
 			Status:  false,
@@ -210,7 +211,6 @@ func (u *UserRepo) Verify(ctx context.Context, req *user.VerifyReq) (*user.Verif
 	if err != nil {
 		return nil, err
 	}
-
 	userInsert := bson.M{
 		"email":      userData["email"],
 		"username":   userData["username"],
@@ -219,8 +219,10 @@ func (u *UserRepo) Verify(ctx context.Context, req *user.VerifyReq) (*user.Verif
 		"updated_at": time.Now().String(),
 		"deleted_at": 0,
 	}
+	fmt.Println(userInsert)
 	_, err = u.coll.InsertOne(ctx, userInsert)
 	if err != nil {
+		fmt.Println("this is error", err.Error())
 		return nil, err
 	}
 
@@ -303,8 +305,6 @@ func (u *UserRepo) SendEmail(to string, code int) error {
 	m.SetHeader("To", to)
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", body)
-	fmt.Println(u.conf.Email)
-	fmt.Println(u.conf.PassKey)
 	d := gomail.NewDialer("smtp.gmail.com", 587, u.conf.Email, u.conf.PassKey)
 
 	if err := d.DialAndSend(m); err != nil {
