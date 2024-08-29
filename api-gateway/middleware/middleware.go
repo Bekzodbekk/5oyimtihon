@@ -71,7 +71,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
 		// Token dan olingan ma'lumotlarni kontekstga saqlash
 		c.Set("user_id", id)
 		c.Set("email", email)

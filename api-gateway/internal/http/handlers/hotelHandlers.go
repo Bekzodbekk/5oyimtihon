@@ -10,6 +10,7 @@ import (
 // @Tags hotels
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel body CreateHotelReq true "Hotel information"
 // @Success 200 {object} CreateHotelResp
 // @Failure 400 {object} Error
@@ -39,6 +40,7 @@ func (h *HandlerST) CreateHotel(ctx *gin.Context) {
 // @Tags hotels
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Param hotel body UpdateHotelReq true "Updated hotel information"
 // @Success 200 {object} UpdateHotelResp
@@ -69,6 +71,7 @@ func (h *HandlerST) UpdateHotel(ctx *gin.Context) {
 // @Description Delete a hotel by its ID
 // @Tags hotels
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Success 200 {object} DeleteHotelResp
 // @Failure 400 {object} Error
@@ -90,6 +93,7 @@ func (h *HandlerST) DeleteHotel(ctx *gin.Context) {
 // @Description Retrieve a list of all hotels
 // @Tags hotels
 // @Produce json
+// @Security      BearerAuth
 // @Success 200 {object} GetAllHotelsST
 // @Failure 400 {object} Error
 // @Router /hotels [get]
@@ -107,6 +111,7 @@ func (h *HandlerST) GetAllHotels(ctx *gin.Context) {
 // @Description Retrieve a specific hotel by its ID
 // @Tags hotels
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Success 200 {object} GetHotelByIdResp
 // @Failure 400 {object} Error
@@ -129,6 +134,7 @@ func (h *HandlerST) GetHotelById(ctx *gin.Context) {
 // @Description Retrieve the availability of rooms for a specific hotel
 // @Tags hotels
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Success 200 {object} HotelRoomsAvailabilityResp
 // @Failure 400 {object} Error
@@ -152,6 +158,7 @@ func (h *HandlerST) GetHotelRoomsAvailability(ctx *gin.Context) {
 // @Tags rooms
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param room body CreateRoomReq true "Room information"
 // @Success 200 {object} CreateRoomResp
 // @Failure 400 {object} Error
@@ -189,6 +196,7 @@ func (h *HandlerST) CreateRoom(ctx *gin.Context) {
 // @Tags rooms
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Param room_id path string true "Room ID"
 // @Param room body UpdateRoomReq true "Updated room information"
@@ -233,6 +241,7 @@ func (h *HandlerST) UpdateRoom(ctx *gin.Context) {
 // @Description Delete a room in a hotel
 // @Tags rooms
 // @Produce json
+// @Security      BearerAuth
 // @Param hotel_id path string true "Hotel ID"
 // @Param room_id path string true "Room ID"
 // @Success 200 {object} DeleteRoomResp

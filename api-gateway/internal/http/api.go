@@ -22,7 +22,7 @@ import (
 // @BasePath /api
 // @securityDefinitions.apikey BearerAuth
 // @in header
-// @name Authourization
+// @name Authorization
 func NewGin(cli service.ServiceRepository, rdb *redis.Client) *http.Server {
 	r := gin.Default()
 

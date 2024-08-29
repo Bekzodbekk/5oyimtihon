@@ -17,6 +17,11 @@ const docTemplate = `{
     "paths": {
         "/bookings": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new booking for a user",
                 "consumes": [
                     "application/json"
@@ -63,6 +68,11 @@ const docTemplate = `{
         },
         "/bookings/user/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve all bookings for a specific user",
                 "produces": [
                     "application/json"
@@ -98,6 +108,11 @@ const docTemplate = `{
         },
         "/bookings/{booking_id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve a specific booking by its ID",
                 "produces": [
                     "application/json"
@@ -131,6 +146,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update an existing booking",
                 "consumes": [
                     "application/json"
@@ -182,6 +202,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete an existing booking",
                 "produces": [
                     "application/json"
@@ -217,6 +242,11 @@ const docTemplate = `{
         },
         "/hotels": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve a list of all hotels",
                 "produces": [
                     "application/json"
@@ -241,6 +271,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new hotel with the provided details",
                 "consumes": [
                     "application/json"
@@ -281,6 +316,11 @@ const docTemplate = `{
         },
         "/hotels/{hotel_id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve a specific hotel by its ID",
                 "produces": [
                     "application/json"
@@ -314,6 +354,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update an existing hotel's details",
                 "consumes": [
                     "application/json"
@@ -359,6 +404,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a hotel by its ID",
                 "produces": [
                     "application/json"
@@ -394,6 +444,11 @@ const docTemplate = `{
         },
         "/hotels/{hotel_id}/rooms/availability": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve the availability of rooms for a specific hotel",
                 "produces": [
                     "application/json"
@@ -429,6 +484,11 @@ const docTemplate = `{
         },
         "/rooms": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new room in a hotel",
                 "consumes": [
                     "application/json"
@@ -469,6 +529,11 @@ const docTemplate = `{
         },
         "/rooms/{hotel_id}/{room_id}": {
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update the details of an existing room in a hotel",
                 "consumes": [
                     "application/json"
@@ -521,6 +586,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete a room in a hotel",
                 "produces": [
                     "application/json"
@@ -563,6 +633,11 @@ const docTemplate = `{
         },
         "/users/login": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Authenticate a user and return a token",
                 "consumes": [
                     "application/json"
@@ -603,6 +678,11 @@ const docTemplate = `{
         },
         "/users/register": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Create a new user account",
                 "consumes": [
                     "application/json"
@@ -643,6 +723,11 @@ const docTemplate = `{
         },
         "/users/verify": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Verify a user's account",
                 "consumes": [
                     "application/json"
@@ -683,6 +768,11 @@ const docTemplate = `{
         },
         "/users/{user_id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieve a user's information by their ID",
                 "produces": [
                     "application/json"
@@ -716,6 +806,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Update an existing user's information",
                 "consumes": [
                     "application/json"
@@ -761,6 +856,11 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Delete an existing user",
                 "produces": [
                     "application/json"
@@ -1340,9 +1440,6 @@ const docTemplate = `{
                 "password": {
                     "type": "string"
                 },
-                "user_id": {
-                    "type": "string"
-                },
                 "username": {
                     "type": "string"
                 }
@@ -1408,7 +1505,7 @@ const docTemplate = `{
     "securityDefinitions": {
         "BearerAuth": {
             "type": "apiKey",
-            "name": "Authourization",
+            "name": "Authorization",
             "in": "header"
         }
     }

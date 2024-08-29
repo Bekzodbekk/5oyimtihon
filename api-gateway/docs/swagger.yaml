@@ -352,8 +352,6 @@ definitions:
         type: string
       password:
         type: string
-      user_id:
-        type: string
       username:
         type: string
     type: object
@@ -426,6 +424,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Create a new booking
       tags:
       - bookings
@@ -449,6 +449,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Delete a booking
       tags:
       - bookings
@@ -471,6 +473,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get a booking by ID
       tags:
       - bookings
@@ -505,6 +509,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Update a booking
       tags:
       - bookings
@@ -528,6 +534,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get bookings by user ID
       tags:
       - bookings
@@ -545,6 +553,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get all hotels
       tags:
       - hotels
@@ -570,6 +580,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Create a new hotel
       tags:
       - hotels
@@ -593,6 +605,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Delete a hotel
       tags:
       - hotels
@@ -615,6 +629,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get a hotel by ID
       tags:
       - hotels
@@ -645,6 +661,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Update an existing hotel
       tags:
       - hotels
@@ -668,6 +686,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get hotel rooms availability
       tags:
       - hotels
@@ -694,6 +714,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Create a new room
       tags:
       - rooms
@@ -722,6 +744,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Delete a room
       tags:
       - rooms
@@ -757,6 +781,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Update an existing room
       tags:
       - rooms
@@ -780,6 +806,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Delete user
       tags:
       - users
@@ -802,6 +830,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Get user by ID
       tags:
       - users
@@ -832,6 +862,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Update user
       tags:
       - users
@@ -858,6 +890,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: User login
       tags:
       - users
@@ -884,6 +918,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Register a new user
       tags:
       - users
@@ -910,12 +946,14 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/handlers.Error'
+      security:
+      - BearerAuth: []
       summary: Verify user
       tags:
       - users
 securityDefinitions:
   BearerAuth:
     in: header
-    name: Authourization
+    name: Authorization
     type: apiKey
 swagger: "2.0"

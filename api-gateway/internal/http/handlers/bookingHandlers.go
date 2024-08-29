@@ -12,6 +12,7 @@ import (
 // @Tags bookings
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param booking body CreateBookingReq true "Booking information"
 // @Success 200 {object} CreateBookingResp
 // @Failure 400 {object} Error
@@ -38,6 +39,7 @@ func (h *HandlerST) CreateBooking(ctx *gin.Context) {
 // @Tags bookings
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param booking_id path string true "Booking ID"
 // @Param booking body UpdateBookingReq true "Updated booking information"
 // @Success 200 {object} UpdateBookingResp
@@ -66,6 +68,7 @@ func (h *HandlerST) UpdateBooking(ctx *gin.Context) {
 // @Description Delete an existing booking
 // @Tags bookings
 // @Produce json
+// @Security      BearerAuth
 // @Param booking_id path string true "Booking ID"
 // @Success 200 {object} DeleteBookingResp
 // @Failure 500 {object} Error
@@ -87,6 +90,7 @@ func (h *HandlerST) DeleteBooking(ctx *gin.Context) {
 // @Description Retrieve all bookings for a specific user
 // @Tags bookings
 // @Produce json
+// @Security      BearerAuth
 // @Param user_id path string true "User ID"
 // @Success 200 {object} GetBookingByUserIdResp
 // @Failure 500 {object} Error
@@ -108,6 +112,7 @@ func (h *HandlerST) GetBookingByUserId(ctx *gin.Context) {
 // @Description Retrieve a specific booking by its ID
 // @Tags bookings
 // @Produce json
+// @Security      BearerAuth
 // @Param booking_id path string true "Booking ID"
 // @Success 200 {object} GetBookingResp
 // @Failure 500 {object} Error

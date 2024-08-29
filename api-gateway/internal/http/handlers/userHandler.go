@@ -10,6 +10,7 @@ import (
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param user body CreateUserReq true "User registration information"
 // @Success 200 {object} CreateUserResp
 // @Failure 400 {object} Error
@@ -41,6 +42,7 @@ func (h *HandlerST) Register(ctx *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param credentials body LoginReq true "User login credentials"
 // @Success 200 {object} LoginResp
 // @Failure 400 {object} Error
@@ -72,6 +74,7 @@ func (h *HandlerST) Login(ctx *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param verificationData body VerifyReq true "User verification data"
 // @Success 200 {object} VerifyResp
 // @Failure 400 {object} Error
@@ -103,6 +106,7 @@ func (h *HandlerST) Verify(ctx *gin.Context) {
 // @Tags users
 // @Accept json
 // @Produce json
+// @Security      BearerAuth
 // @Param user_id path string true "User ID"
 // @Param user body UpdateUserReq true "Updated user information"
 // @Success 200 {object} UpdateUserResp
@@ -136,6 +140,7 @@ func (h *HandlerST) UpdateUser(ctx *gin.Context) {
 // @Description Delete an existing user
 // @Tags users
 // @Produce json
+// @Security      BearerAuth
 // @Param user_id path string true "User ID"
 // @Success 200 {object} DeleteUserResp
 // @Failure 400 {object} Error
@@ -162,6 +167,7 @@ func (h *HandlerST) DeleteUser(ctx *gin.Context) {
 // @Description Retrieve a user's information by their ID
 // @Tags users
 // @Produce json
+// @Security      BearerAuth
 // @Param user_id path string true "User ID"
 // @Success 200 {object} GetUserByIdResp
 // @Failure 400 {object} Error
