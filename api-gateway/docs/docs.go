@@ -427,6 +427,140 @@ const docTemplate = `{
                 }
             }
         },
+        "/rooms": {
+            "post": {
+                "description": "Create a new room in a hotel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Create a new room",
+                "parameters": [
+                    {
+                        "description": "Room information",
+                        "name": "room",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CreateRoomReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CreateRoomResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/rooms/{hotel_id}/{room_id}": {
+            "put": {
+                "description": "Update the details of an existing room in a hotel",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Update an existing room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Room ID",
+                        "name": "room_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated room information",
+                        "name": "room",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.UpdateRoomReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.UpdateRoomResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a room in a hotel",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "rooms"
+                ],
+                "summary": "Delete a room",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Hotel ID",
+                        "name": "hotel_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Room ID",
+                        "name": "room_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.DeleteRoomResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/users/login": {
             "post": {
                 "description": "Authenticate a user and return a token",
@@ -796,6 +930,34 @@ const docTemplate = `{
                 }
             }
         },
+        "handlers.CreateRoomReq": {
+            "type": "object",
+            "properties": {
+                "hotel_id": {
+                    "type": "string"
+                },
+                "price_per_night": {
+                    "type": "number"
+                },
+                "room_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.CreateRoomResp": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "room": {
+                    "$ref": "#/definitions/handlers.Room"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
         "handlers.CreateUserReq": {
             "type": "object",
             "properties": {
@@ -836,6 +998,17 @@ const docTemplate = `{
             }
         },
         "handlers.DeleteHotelResp": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handlers.DeleteRoomResp": {
             "type": "object",
             "properties": {
                 "message": {
@@ -1122,6 +1295,34 @@ const docTemplate = `{
                 "hotel": {
                     "$ref": "#/definitions/handlers.Hotel"
                 },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "handlers.UpdateRoomReq": {
+            "type": "object",
+            "properties": {
+                "hotel_id": {
+                    "type": "string"
+                },
+                "price_per_night": {
+                    "type": "number"
+                },
+                "room_id": {
+                    "type": "string"
+                },
+                "room_type": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.UpdateRoomResp": {
+            "type": "object",
+            "properties": {
                 "message": {
                     "type": "string"
                 },

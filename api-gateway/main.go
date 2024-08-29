@@ -5,7 +5,7 @@ import (
 	bookingservice "api-gateway/internal/pkg/booking-service"
 	hotelservice "api-gateway/internal/pkg/hotel-service"
 	"api-gateway/internal/pkg/load"
-	notifservice "api-gateway/internal/pkg/notif-service"
+	"api-gateway/internal/pkg/redis"
 	userservice "api-gateway/internal/pkg/user-service"
 	"api-gateway/internal/service"
 	"context"
@@ -23,17 +23,18 @@ func main() {
 		log.Fatal(err)
 	}
 
+	rdb, err := redis.ConnectRedis(*cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
 	hotelClient, err := hotelservice.DialWithHotelService(*cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	bookingClient, err := bookingservice.DialWithBookingService(*cfg)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	notifClient, err := notifservice.DialWithNotifService(*cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,10 +48,9 @@ func main() {
 		hotelClient,
 		bookingClient,
 		userClient,
-		notifClient,
 	)
 
-	r := http.NewGin(*cli)
+	r := http.NewGin(*cli, rdb)
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 

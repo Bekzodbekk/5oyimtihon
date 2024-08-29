@@ -10,6 +10,7 @@ import (
 	_ "api-gateway/docs"
 
 	"github.com/gin-gonic/gin"
+	"github.com/redis/go-redis/v9"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -22,12 +23,12 @@ import (
 // @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authourization
-func NewGin(cli service.ServiceRepository) *http.Server {
+func NewGin(cli service.ServiceRepository, rdb *redis.Client) *http.Server {
 	r := gin.Default()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	hnd := handlers.NewHandler(cli)
+	hnd := handlers.NewHandler(cli, rdb)
 
 	r.POST("/api/users/register", hnd.Register)
 	r.POST("/api/users/verify", hnd.Verify)
@@ -42,6 +43,10 @@ func NewGin(cli service.ServiceRepository) *http.Server {
 		protected.GET("/hotels", hnd.GetAllHotels)
 		protected.GET("/hotels/:hotel_id", hnd.GetHotelById)
 		protected.GET("/hotels/:hotel_id/rooms/availability", hnd.GetHotelRoomsAvailability)
+
+		protected.POST("/rooms", hnd.CreateRoom)
+		protected.PUT("/rooms/:hotel_id/:room_id", hnd.UpdateRoom)
+		protected.DELETE("/rooms/:hotel_id/:room_id", hnd.DeleteRoom)
 
 		// Booking routes
 		protected.POST("/bookings", hnd.CreateBooking)

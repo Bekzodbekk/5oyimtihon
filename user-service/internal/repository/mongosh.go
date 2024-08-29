@@ -179,8 +179,9 @@ func (u *UserRepo) Login(ctx context.Context, req *user.LoginReq) (*user.LoginRe
 	}
 	idObject := userDoc["_id"].(primitive.ObjectID)
 	id := idObject.Hex()
+	email := userDoc["email"].(string)
 
-	token, err := token.GenerateToken(*conf, id)
+	token, err := token.GenerateToken(*conf, id, email)
 	if err != nil {
 		return nil, err
 	}

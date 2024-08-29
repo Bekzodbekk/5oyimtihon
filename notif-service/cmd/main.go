@@ -1,11 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"notif-service/internal/http"
 	"notif-service/internal/pkg/load"
-	notificationservice "notif-service/internal/pkg/notification-service"
-	"notif-service/internal/repository"
-	"notif-service/internal/service"
+	"notif-service/internal/pkg/redis"
 )
 
 func main() {
@@ -13,13 +13,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	rdb, err := redis.ConnectRedis(*conf)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	repo := repository.NewNotifRepo()
-	service := service.NewSerivce(&repo)
-	run := notificationservice.NewRunService(*service)
+	r := http.NewGin(rdb)
 
-	log.Printf("Notification service running on :%d port", conf.NotifPort)
-	if err := run.RUN(*conf); err != nil {
+	target := fmt.Sprintf("%s:%d", conf.NotifHost, conf.NotifPort)
+	if err := r.Run(target); err != nil {
 		log.Fatal(err)
 	}
 }

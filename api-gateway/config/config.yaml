@@ -1,26 +1,29 @@
 server:
-  host: localhost
+  host: api-gateway
   port: 9000
 
 hotel_service:
-  host: localhost
+  host: hotel-service
   port: 8001
 
 user_service:
-  host: localhost
+  host: user-service
   port: 8002
 
 booking_service:
-  host: localhost
+  host: booking-service
   port: 8003
 
 notification_service:
-  host: localhost
-  port: 8004
+  host: notif-service
+  port: 3000
 
+redis:
+  host: redis
+  port: 6379
 
 secretKey: bekzodbekk_mongosh
 
 tls:
-  cert: "/root/localhost.pem"
-  key: "/root/localhost-key.pem"
+  cert: "./localhost.pem"
+  key: "./localhost-key.pem"

@@ -20,13 +20,11 @@ func NewServiceRepository(
 	hotel *hotel.HotelServiceClient,
 	booking *booking.BookingServiceClient,
 	user *user.UserServiceClient,
-	notif *notif.NotifServiceClient,
 ) *ServiceRepository {
 	return &ServiceRepository{
 		HotelServiceClient:        *hotel,
 		BookingServiceClient:      *booking,
 		UserServiceClient:         *user,
-		NotificationServiceClient: *notif,
 	}
 }
 
@@ -95,6 +93,3 @@ func (s *ServiceRepository) GetUserById(ctx context.Context, req *user.GetUserBy
 	return s.UserServiceClient.GetUserById(ctx, req)
 }
 
-func (s *ServiceRepository) Notification(ctx context.Context, req *notif.NotificationReq) (*notif.VoidNotif, error) {
-	return s.NotificationServiceClient.Notification(ctx, req)
-}

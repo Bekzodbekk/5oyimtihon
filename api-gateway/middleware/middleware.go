@@ -65,8 +65,16 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		email, ok := (*claims)["email"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+			c.Abort()
+			return
+		}
+
 		// Token dan olingan ma'lumotlarni kontekstga saqlash
 		c.Set("user_id", id)
+		c.Set("email", email)
 
 		c.Next()
 	}

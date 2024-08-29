@@ -110,7 +110,7 @@ func SendEmail(to string, message string) error {
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", body)
 
-	d := gomail.NewDialer("smtp.gmail.com", 587, "bekzodnematov709@gmail.com", "mgkr nogt rbrk qojt")
+	d := gomail.NewDialer("smtp.gmail.com", 587, "bekzodnematov709@gmail.com", "funt snwb bqdo kqfk")
 
 	if err := d.DialAndSend(m); err != nil {
 		return err

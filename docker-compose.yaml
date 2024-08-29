@@ -36,7 +36,7 @@ services:
       context: ./notif-service
       dockerfile: Dockerfile
     ports:
-      - "8004:8004"
+      - "3000:3000"
     depends_on:
       - mongodb
       - redis

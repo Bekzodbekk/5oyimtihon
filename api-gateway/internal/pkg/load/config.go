@@ -15,9 +15,14 @@ type DialServiceConfig struct {
 	NotifServiceHost string
 	NotifServicePort int
 }
+type Redis struct {
+	RedisHost string
+	RedisPort int
+}
 
 type Config struct {
 	DialServiceConfig DialServiceConfig
+	Redis             Redis
 	ApiGatewayHost    string
 	ApiGatewayPort    int
 
@@ -48,6 +53,10 @@ func LOAD(path string) (*Config, error) {
 
 			NotifServiceHost: viper.GetString("notification_service.host"),
 			NotifServicePort: viper.GetInt("notification_service.port"),
+		},
+		Redis: Redis{
+			RedisHost: viper.GetString("redis.host"),
+			RedisPort: viper.GetInt("redis.port"),
 		},
 
 		ApiGatewayHost: viper.GetString("server.host"),

@@ -10,8 +10,8 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 
 COPY ./config/config.yaml ./config/config.yaml
-COPY localhost.pem /root/localhost.pem
-COPY localhost-key.pem /root/localhost-key.pem
+COPY ./localhost-key.pem ./localhost-key.pem
+COPY ./localhost.pem ./localhost.pem
 
 COPY --from=builder /app/main .
 EXPOSE 8080
