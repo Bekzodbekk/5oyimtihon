@@ -4,12 +4,28 @@ import (
 	handlers "api-gateway/internal/http/handlers"
 	"api-gateway/internal/service"
 	"api-gateway/middleware"
+	"crypto/tls"
+	"net/http"
+
+	_ "api-gateway/docs"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func NewGin(cli service.ServiceRepository) *gin.Engine {
+// @tite Api-gateway service
+// @version 1.0
+// @description Api-gateway service
+// @host localhost:9000
+// @BasePath /api
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authourization
+func NewGin(cli service.ServiceRepository) *http.Server {
 	r := gin.Default()
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	hnd := handlers.NewHandler(cli)
 
@@ -39,5 +55,18 @@ func NewGin(cli service.ServiceRepository) *gin.Engine {
 		protected.DELETE("/users/:user_id", hnd.DeleteUser)
 		protected.GET("/users/:user_id", hnd.GetUserById)
 	}
-	return r
+
+	tlsConfig := &tls.Config{
+		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
+	}
+
+	srv := &http.Server{
+		Addr:      ":9000",
+		Handler:   r,
+		TLSConfig: tlsConfig,
+	}
+
+	return srv
+
+	// return r
 }

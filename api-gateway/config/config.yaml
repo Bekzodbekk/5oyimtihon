@@ -20,3 +20,7 @@ notification_service:
 
 
 secretKey: bekzodbekk_mongosh
+
+tls:
+  cert: "/root/localhost.pem"
+  key: "/root/localhost-key.pem"

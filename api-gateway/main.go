@@ -8,8 +8,13 @@ import (
 	notifservice "api-gateway/internal/pkg/notif-service"
 	userservice "api-gateway/internal/pkg/user-service"
 	"api-gateway/internal/service"
+	"context"
 	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -46,9 +51,27 @@ func main() {
 	)
 
 	r := http.NewGin(*cli)
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
 
-	target := fmt.Sprintf("%s:%d", cfg.ApiGatewayHost, cfg.ApiGatewayPort)
-	if err := r.Run(target); err != nil {
-		log.Fatal(err)
+	addr := fmt.Sprintf(":%d", cfg.ApiGatewayPort)
+	go func() {
+		log.Printf("Starting API Gateway on: %s", addr)
+		if err := r.ListenAndServeTLS(cfg.Cert, cfg.Key); err != nil {
+			log.Fatal(err)
+		}
+	}()
+	log.Printf("Starting API Gateway on address: %s", addr)
+
+	signalReceived := <-sigChan
+	log.Printf("Received signal: %s", signalReceived)
+
+	shutdownCtx, shutdownRelease := context.WithTimeout(context.Background(), 10*time.Second)
+	defer shutdownRelease()
+
+	if err := r.Shutdown(shutdownCtx); err != nil {
+		log.Fatal("Server shutdown error: ", err)
 	}
+	log.Printf("Graceful shutdown complete.")
+
 }

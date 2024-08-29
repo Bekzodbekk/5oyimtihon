@@ -29,9 +29,9 @@ func main() {
 	repo := repository.NewUserRepo(mongoConn.Collection, rdb, *conf)
 	service := service.NewService(repo)
 	run := userservice.NewRunSerivce(*service)
-	
+
 	log.Printf("User Service Running on :%d port", conf.UserServicePort)
-	if err := run.RUN(*conf); err != nil{
+	if err := run.RUN(*conf); err != nil {
 		log.Fatal(err)
 	}
 }

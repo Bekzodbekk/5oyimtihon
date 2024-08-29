@@ -1,0 +1,789 @@
+basePath: /api
+definitions:
+  handlers.Booking:
+    properties:
+      booking_id:
+        type: string
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      hotel_id:
+        type: string
+      room_type:
+        type: string
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  handlers.CUD:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  handlers.CUDUser:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  handlers.CreateBookingReq:
+    properties:
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      hotel_id:
+        type: string
+      room_type:
+        type: string
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  handlers.CreateBookingResp:
+    properties:
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      hotel_id:
+        type: string
+      room_type:
+        type: string
+      status:
+        type: boolean
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  handlers.CreateHotelReq:
+    properties:
+      address:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      rating:
+        type: integer
+    type: object
+  handlers.CreateHotelResp:
+    properties:
+      hotel:
+        $ref: '#/definitions/handlers.Hotel'
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.CreateUserReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handlers.CreateUserResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.DeleteBookingResp:
+    properties:
+      booking_id:
+        type: string
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.DeleteHotelResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.DeleteUserResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.Error:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.GetAllHotelsST:
+    properties:
+      hotels:
+        items:
+          $ref: '#/definitions/handlers.Hotel'
+        type: array
+      hotels_count:
+        type: integer
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.GetBookingByUserIdResp:
+    properties:
+      books:
+        items:
+          $ref: '#/definitions/handlers.Booking'
+        type: array
+    type: object
+  handlers.GetBookingResp:
+    properties:
+      booking_id:
+        type: string
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      hotel_id:
+        type: string
+      room_type:
+        type: string
+      status:
+        type: boolean
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  handlers.GetHotelByIdResp:
+    properties:
+      hotel:
+        $ref: '#/definitions/handlers.Hotel'
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.GetUserByIdResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+      user:
+        $ref: '#/definitions/handlers.User'
+    type: object
+  handlers.Hotel:
+    properties:
+      address:
+        type: string
+      cud:
+        $ref: '#/definitions/handlers.CUD'
+      hotel_id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      rating:
+        type: integer
+      room:
+        $ref: '#/definitions/handlers.Room'
+      rooms_count:
+        type: integer
+    type: object
+  handlers.HotelRoomsAvailabilityResp:
+    properties:
+      message:
+        type: string
+      rooms:
+        items:
+          $ref: '#/definitions/handlers.Room'
+        type: array
+      status:
+        type: boolean
+    type: object
+  handlers.LoginReq:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handlers.LoginResp:
+    properties:
+      expires_in:
+        type: string
+      message:
+        type: string
+      status:
+        type: boolean
+      token:
+        type: string
+    type: object
+  handlers.Room:
+    properties:
+      availability:
+        type: boolean
+      hotel_id:
+        type: string
+      price_per_night:
+        type: number
+      room_id:
+        type: string
+      room_type:
+        type: string
+    type: object
+  handlers.UpdateBookingReq:
+    properties:
+      booking_id:
+        type: string
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      total_amount:
+        type: number
+    type: object
+  handlers.UpdateBookingResp:
+    properties:
+      booking_id:
+        type: string
+      check_in_date:
+        type: string
+      check_out_date:
+        type: string
+      hotel_id:
+        type: string
+      room_type:
+        type: string
+      status:
+        type: boolean
+      total_amount:
+        type: number
+      user_id:
+        type: string
+    type: object
+  handlers.UpdateHotelReq:
+    properties:
+      address:
+        type: string
+      hotel_id:
+        type: string
+      location:
+        type: string
+      name:
+        type: string
+      rating:
+        type: integer
+    type: object
+  handlers.UpdateHotelResp:
+    properties:
+      hotel:
+        $ref: '#/definitions/handlers.Hotel'
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  handlers.UpdateUserReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
+  handlers.UpdateUserResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+      user:
+        $ref: '#/definitions/handlers.User'
+    type: object
+  handlers.User:
+    properties:
+      cud:
+        $ref: '#/definitions/handlers.CUDUser'
+      email:
+        type: string
+      password:
+        type: string
+      user_id:
+        type: string
+      username:
+        type: string
+    type: object
+  handlers.VerifyReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  handlers.VerifyResp:
+    properties:
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: Api-gateway service
+  version: "1.0"
+paths:
+  /bookings:
+    post:
+      consumes:
+      - application/json
+      description: Create a new booking for a user
+      parameters:
+      - description: Booking information
+        in: body
+        name: booking
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateBookingReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CreateBookingResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Create a new booking
+      tags:
+      - bookings
+  /bookings/{booking_id}:
+    delete:
+      description: Delete an existing booking
+      parameters:
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.DeleteBookingResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Delete a booking
+      tags:
+      - bookings
+    get:
+      description: Retrieve a specific booking by its ID
+      parameters:
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetBookingResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get a booking by ID
+      tags:
+      - bookings
+    put:
+      consumes:
+      - application/json
+      description: Update an existing booking
+      parameters:
+      - description: Booking ID
+        in: path
+        name: booking_id
+        required: true
+        type: string
+      - description: Updated booking information
+        in: body
+        name: booking
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateBookingReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UpdateBookingResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Update a booking
+      tags:
+      - bookings
+  /bookings/user/{user_id}:
+    get:
+      description: Retrieve all bookings for a specific user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetBookingByUserIdResp'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get bookings by user ID
+      tags:
+      - bookings
+  /hotels:
+    get:
+      description: Retrieve a list of all hotels
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetAllHotelsST'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get all hotels
+      tags:
+      - hotels
+    post:
+      consumes:
+      - application/json
+      description: Create a new hotel with the provided details
+      parameters:
+      - description: Hotel information
+        in: body
+        name: hotel
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateHotelReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CreateHotelResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Create a new hotel
+      tags:
+      - hotels
+  /hotels/{hotel_id}:
+    delete:
+      description: Delete a hotel by its ID
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.DeleteHotelResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Delete a hotel
+      tags:
+      - hotels
+    get:
+      description: Retrieve a specific hotel by its ID
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetHotelByIdResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get a hotel by ID
+      tags:
+      - hotels
+    put:
+      consumes:
+      - application/json
+      description: Update an existing hotel's details
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_id
+        required: true
+        type: string
+      - description: Updated hotel information
+        in: body
+        name: hotel
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateHotelReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UpdateHotelResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Update an existing hotel
+      tags:
+      - hotels
+  /hotels/{hotel_id}/rooms/availability:
+    get:
+      description: Retrieve the availability of rooms for a specific hotel
+      parameters:
+      - description: Hotel ID
+        in: path
+        name: hotel_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.HotelRoomsAvailabilityResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get hotel rooms availability
+      tags:
+      - hotels
+  /users/{user_id}:
+    delete:
+      description: Delete an existing user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.DeleteUserResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Delete user
+      tags:
+      - users
+    get:
+      description: Retrieve a user's information by their ID
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.GetUserByIdResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Get user by ID
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update an existing user's information
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Updated user information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UpdateUserResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Update user
+      tags:
+      - users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user and return a token
+      parameters:
+      - description: User login credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.LoginResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: User login
+      tags:
+      - users
+  /users/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user account
+      parameters:
+      - description: User registration information
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CreateUserResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Register a new user
+      tags:
+      - users
+  /users/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify a user's account
+      parameters:
+      - description: User verification data
+        in: body
+        name: verificationData
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.VerifyReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.VerifyResp'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handlers.Error'
+      summary: Verify user
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authourization
+    type: apiKey
+swagger: "2.0"

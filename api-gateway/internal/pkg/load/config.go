@@ -22,6 +22,8 @@ type Config struct {
 	ApiGatewayPort    int
 
 	SecretKey string
+	Cert      string
+	Key       string
 }
 
 func LOAD(path string) (*Config, error) {
@@ -52,6 +54,8 @@ func LOAD(path string) (*Config, error) {
 		ApiGatewayPort: viper.GetInt("server.port"),
 
 		SecretKey: viper.GetString("secretKey"),
+		Cert:      viper.GetString("tls.cert"),
+		Key:       viper.GetString("tls.key"),
 	}
 
 	return &conf, nil

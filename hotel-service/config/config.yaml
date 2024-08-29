@@ -1,9 +1,9 @@
 server:
-  host: localhost
+  host: hotel-service
   port: 8001
 
 mongosh:
-  host: localhost
+  host: mongodb
   port: 27017
   database: hotelDB
   collection: hotel

@@ -1,9 +1,9 @@
 service:
-  host: localhost
+  host: booking-service
   port: 8003
 
 mongosh:
-  host: localhost
+  host: mongodb
   port: 27017
   database: BookingDB
   collection: books
